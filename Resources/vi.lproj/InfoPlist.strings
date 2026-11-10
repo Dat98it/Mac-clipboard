@@ -1,0 +1,5 @@
+"NSDesktopFolderUsageDescription" = "Mac ClipBoard mở các file bạn đã copy để ứng dụng bạn dán vào được phép nhận chúng.";
+"NSDocumentsFolderUsageDescription" = "Mac ClipBoard mở các file bạn đã copy để ứng dụng bạn dán vào được phép nhận chúng.";
+"NSDownloadsFolderUsageDescription" = "Mac ClipBoard mở các file bạn đã copy để ứng dụng bạn dán vào được phép nhận chúng.";
+"NSRemovableVolumesUsageDescription" = "Mac ClipBoard mở các file bạn đã copy để ứng dụng bạn dán vào được phép nhận chúng.";
+"NSNetworkVolumesUsageDescription" = "Mac ClipBoard mở các file bạn đã copy để ứng dụng bạn dán vào được phép nhận chúng.";
