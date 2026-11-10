@@ -201,6 +201,9 @@ MUTATIONS = [
     ("selection-clamped", CORE + "ListSelection.swift", "ids[min(max(index + delta, 0), ids.count - 1)]", "ids[(index + delta + ids.count) % ids.count]"),
     ("selection-starts-at-first", CORE + "ListSelection.swift", "else { return ids[0] }", "else { return ids[ids.count - 1] }"),
     ("thumbnail-pixel-cap", SYS + "Thumbnailer.swift", "width * height <= maxSourcePixels else { return nil }", "true else { return nil }"),
+    ("panel-hotkey-ignores-space", CORE + "PanelToggleRules.swift", "isVisible && isOnActiveSpace && isKey ? .hide : .show", "isVisible && isKey ? .hide : .show"),
+    ("panel-hotkey-hides-unfocused", CORE + "PanelToggleRules.swift", "isVisible && isOnActiveSpace && isKey ? .hide : .show", "isVisible && isOnActiveSpace ? .hide : .show"),
+    ("panel-status-ignores-space", CORE + "PanelToggleRules.swift", "isVisible && isOnActiveSpace ? .hide : .show\n    }\n}", "isVisible ? .hide : .show\n    }\n}"),
 ]
 
 

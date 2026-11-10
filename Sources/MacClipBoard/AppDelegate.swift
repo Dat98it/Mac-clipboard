@@ -81,7 +81,8 @@ import MacClipBoardSystem
             statusItem.menu = menu
             statusItem.button?.performClick(nil)
             statusItem.menu = nil
-        } else if window?.isVisible == true {
+        } else if PanelToggleRules.statusItem(isVisible: window?.isVisible == true,
+                                              isOnActiveSpace: window?.isOnActiveSpace == true) == .hide {
             window?.orderOut(nil)
         } else { showWindow() }
     }
@@ -89,7 +90,10 @@ import MacClipBoardSystem
     /// The global shortcut: hide the history when it is the window being used, otherwise bring it up.
     /// Showing it records the frontmost app as the paste destination, so it works from any app.
     func toggleFromHotkey() {
-        if let window, window.isVisible, window.isKeyWindow { window.orderOut(nil) } else { showWindow() }
+        let action = PanelToggleRules.hotkey(isVisible: window?.isVisible == true,
+                                             isOnActiveSpace: window?.isOnActiveSpace == true,
+                                             isKey: window?.isKeyWindow == true)
+        if action == .hide { window?.orderOut(nil) } else { showWindow() }
     }
     @objc func togglePause() { model.togglePaused() }
     @objc func openSettings() {
@@ -112,6 +116,9 @@ import MacClipBoardSystem
             panel.hidesOnDeactivate = false
             panel.becomesKeyOnlyIfNeeded = true
             panel.level = .normal
+            // Follow the user: open on the Space (desktop) they are on now, also over a full-screen app,
+            // instead of staying on the Space where it was first shown.
+            panel.collectionBehavior = [.moveToActiveSpace, .fullScreenAuxiliary]
             panel.contentMinSize = NSSize(width: 480, height: 540)
             panel.contentView = NSHostingView(rootView: HistoryView(model: model, isolated: isolated))
             panel.onBeforeInteraction = { [weak self] in self?.model.router.captureDestination() }
@@ -126,6 +133,8 @@ import MacClipBoardSystem
             panel.center()
             window = panel
         }
+        // A panel still open on another Space must be pulled to this one; ordering it out first makes the move reliable.
+        if let window, window.isVisible, !window.isOnActiveSpace { window.orderOut(nil) }
         window?.makeKeyAndOrderFront(nil)
         window?.orderFrontRegardless()
     }
